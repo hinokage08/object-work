@@ -39,9 +39,15 @@ class VendingMachine
 #投入金額と在庫から現在購入できる飲み物を表示するメソッド
  def can_buy_list
    @can_buy = []
-  p @drink
-   @can_buy
- end
+   @drink.each do |drink|
+      if drink[:stock].to_i >= 1 && @slot_money >= drink[:price].to_i
+        @can_buy << drink[:name]
+      else
+        nil
+      end
+    end
+    return @can_buy
+  end
 
 #購入操作メソッド
 def purchase(buy_drink)
