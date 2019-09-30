@@ -2,11 +2,11 @@
 class Drink
   #新しい飲み物を格納するためのメソッド
   def add_to_drink(drink_name,drink_price,add_stock)
-    @drink = []
     @drink << {name: "#{name}", price: "#{price}", stock: "#{add_stock}"}
   end
   #問題で設定されている飲み物に関する情報を格納しているメソッド
-  def default_drink
+  def initialize
+    @drink = []
     @drink << {name: "cola", price: 120, stock: 5}
     @drink << {name: "water", price: 100, stock: 5}
     @drink << {name: "redbull",price: 200, stock: 5}
@@ -19,7 +19,7 @@ class VendingMachine
    @slot_money = 0
    @return_money = 0
    @salse_money = 0
-   Drink.new
+   @drink = Drink.new
  end
   #投入できるお金（硬貨紙幣）を設定（freezeメソッドで変更不可に
   MONEY = [10, 50, 100, 500, 1000].freeze
@@ -39,14 +39,8 @@ class VendingMachine
 #投入金額と在庫から現在購入できる飲み物を表示するメソッド
  def can_buy_list
    @can_buy = []
-   @drink.each do |drink|
-     if drink[:stock] >= 1 && @slot_money >= drink[:price]
-       can_buy << drink[:name]
-     else
-       nil
-     end
-   end
-   return can_buy
+  p @drink
+   @can_buy
  end
 
 #購入操作メソッド
