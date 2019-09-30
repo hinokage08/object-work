@@ -1,5 +1,5 @@
 #飲み物の名前、値段、在庫に関するクラス
-class drink
+class Drink
   #新しい飲み物を格納するためのメソッド
   def add_to_drink(drink_name,drink_price,add_stock)
     @drink = []
@@ -11,7 +11,7 @@ class drink
     @drink << {name: "water", price: 100, stock: 5}
     @drink << {name: "redbull",price: 200, stock: 5}
   end
-
+end
 #自動販売機の内部処理に関するクラス
 class VendingMachine
   #変数を初期値を代入
@@ -19,6 +19,7 @@ class VendingMachine
    @slot_money = 0
    @return_money = 0
    @salse_money = 0
+   Drink.new
  end
   #投入できるお金（硬貨紙幣）を設定（freezeメソッドで変更不可に
   MONEY = [10, 50, 100, 500, 1000].freeze
@@ -75,4 +76,5 @@ def return_money
   slot_money = @slot_money
   @slot_money = 0
   slot_money
+end
 end
