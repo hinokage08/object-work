@@ -1,25 +1,39 @@
 #飲み物の名前、値段、在庫に関するクラス
+require 'byebug'
 class Drink
+  @@drink = []
   #新しい飲み物を格納するためのメソッド
-  def add_to_drink(drink_name,drink_price,add_stock)
-    @drink << {name: "#{name}", price: "#{price}", stock: "#{add_stock}"}
-  end
+
   #問題で設定されている飲み物に関する情報を格納しているメソッド
-  def initialize
-    @drink = []
-    @drink << {name: "cola", price: 120, stock: 5}
-    @drink << {name: "water", price: 100, stock: 5}
-    @drink << {name: "redbull",price: 200, stock: 5}
+  def stock(name,price,stock)
+    @name = name
+    @price = price
+    @stock = stock
+    # @drink = []
+    # @drink << {name: "cola", price: 120, stock: 5}
+    # @drink << {name: "water", price: 100, stock: 5}
+    # @drink << {name: "redbull",price: 200, stock: 5}
   end
+
+  def add_to_drink
+    @@drink << {name: @name, price: @price, stock: @stock}
+  end
+
 end
 #自動販売機の内部処理に関するクラス
-class VendingMachine
+class VendingMachine < Drink
   #変数を初期値を代入
  def initialize
    @slot_money = 0
    @return_money = 0
-   @salse_money = 0
-   @drink = Drink.new
+   @salses_money = 0
+   @drink = @@drink
+   # @drink = []
+   # @drink = Drink.new
+ end
+
+ def check_drink
+   @drink
  end
   #投入できるお金（硬貨紙幣）を設定（freezeメソッドで変更不可に
   MONEY = [10, 50, 100, 500, 1000].freeze
@@ -39,30 +53,31 @@ class VendingMachine
 #投入金額と在庫から現在購入できる飲み物を表示するメソッド
  def can_buy_list
    @can_buy = []
-   @drink.map {|drink|
-      if drink[:stock].to_i >= 1 && @slot_money >= drink[:price].to_i
-        @can_buy << drink[:name]
-      else
-        nil
-      end
-    }
-    return @can_buy
-  end
+   @drink.each do |drink|
+     if drink[:stock] >= 1 && @slot_money >= drink[:price]
+       @can_buy << drink[:name]
+     else
+       nil
+     end
+   end
+   return @can_buy
+ end
 
 #購入操作メソッド
 def purchase(buy_drink)
   #can_buyのリストの中に入力されたものがあるとき購入処理を行う
   if @can_buy.include?(buy_drink)
     n = 0
-    @drink.each do |drink|
-      if drink[:name] == buy_drink
+    @drink.map {|drink|
+      if drink[:name] == buy_drink && drink[:stock].to_i >= 1
         @slot_money -= (drink[:price]).to_i
         @salses_money += (drink[:price]).to_i
-        @drink[n][stock] -= 1
-      else
-        n += 1
+        drink[:stock] -= 1
+        print drink
+        print @slot_money
+        break if drink[:stock].to_i == 0
       end
-    end
+    }
   end
 end
 
