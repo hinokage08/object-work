@@ -63,7 +63,6 @@ class VendingMachine
  #引数のbuy_drinkが@can_buy_listの中に入っていないときは
  #クラスメソッドとしてcan_buy_listメソッドを用いて、再度購入可能な商品を表示。
   def purchase(buy_drink)
-    #can_buyのリストの中に入力されたものがあるとき購入処理を行う
     if self.can_buy_list.include?(buy_drink)
       @can_buy_drinks.each do |drink|
         if drink[:name] == buy_drink
